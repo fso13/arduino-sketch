@@ -1,7 +1,5 @@
 #include <SPI.h>
 #include "Wire.h"
-#include "Adafruit_GFX.h"
-#include "Adafruit_SSD1306.h"
 #include <DHT.h>
 #include <GyverOLED.h>
 
@@ -50,9 +48,8 @@ void setup() {
   // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
   display.init();             // инициализация
   display.clear();            // очистка
-  display.setScale(3);        // масштаб текста (1..4)
+  display.setScale(1);        // масштаб текста (1..4)
   display.setCursorXY(0, 0);  // курсор в 0,0
-
 
   // display startup text
 
@@ -64,8 +61,8 @@ void setup() {
 
   display.setScale(1);  // указываем размер шрифта
   display.home();
-  display.print("Домашняя станция в.1.0.0");
-  display.setCursorXY(0, 16);
+  display.print("Домашняя станция 1.0");
+  display.setCursorXY(30, 16);
   display.print("Команда Ru");
   display.update();
   delay(2000);
@@ -76,6 +73,8 @@ void setup() {
 void loop() {
   // Wait a few seconds between measurements.
   delay(2000);
+  display.setScale(1);  // указываем размер шрифта
+  display.home();
 
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
@@ -85,27 +84,23 @@ void loop() {
   // Read temperature as Fahrenheit (isFahrenheit = true)
   float f = dht.readTemperature(true);
 
-
-
-  display.setScale(1);  // указываем размер шрифта
-  display.home();
+  display.setCursorXY(2, 0);
   display.print("Влажность: ");
   display.print(h);
-  display.print(" % ");
-  display.setCursorXY(0, 12);
+  display.print(" %");
+  display.setCursorXY(2, 13);
   display.print("Температура: ");
   display.print(t);
-  display.print(" C ");
+  display.print(" C");
   display.update();
 
   display.home();
-  int s=21;
-  for (int i=0; i <= 8; i++){ 
   
-    display.drawBitmap(0 + i*15, s + i%2*2, bitmap_10x10, 10, 10, 1);
+  int s = 23;
+  for (int i = 0; i < 8; i++) {
+    display.drawBitmap(2 + i * 15, s + i % 2 * 2, bitmap_10x10, 10, 10, 1);
     display.update();
     delay(500);
   }
-
   display.clear();
 }
